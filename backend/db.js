@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-mongoose.connect(MONGO_DB_URL)
+mongoose.connect("mongodb+srv://admin:1NHGS8SRzWsZBtDO@blogging.fo1wymr.mongodb.net/")
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
         required:true,
         minlength:3
     },
-    Username: {
+    username: {
         type:String,
         required:true,
         trim:true,
@@ -31,9 +31,21 @@ const attendanceSchema = new mongoose.Schema({
         ref: 'User',
         required:true
     },
-    attendance: {
-        type:Array,
+    date:{
+        type:Date,
+        required:true
+    },
+    status:{
+        type:String,
+        enum: ["Present", "Absent"],
+        default:'Absent'
     }
 })
 
+const User = mongoose.model('User', userSchema)
+const Attendance = mongoose.model('Attendance', attendanceSchema)
 
+module.exports = {
+    User,
+    Attendance
+};
